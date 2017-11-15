@@ -1,4 +1,4 @@
-particalesJS("particles-js", {
+particlesJS("particles-js", {
   "particles": {
     "number": {
       "value": 80,
@@ -18,7 +18,8 @@ particalesJS("particles-js", {
       },
       "polygon": {
         "nb_sides": 5
-      },
+      }
+    },
     "opacity": {
       "value": 0.5,
       "random": false,
@@ -101,4 +102,4 @@ particalesJS("particles-js", {
     }
   },
   "retina_detect": true
-})
+});
