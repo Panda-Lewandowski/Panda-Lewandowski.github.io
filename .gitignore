@@ -1,1 +1,6 @@
 .DS_Store
+elements.html
+map.html
+images/gallery
+assets/js/mapdata.js
+assets/js/worldmap.js
