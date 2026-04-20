@@ -2,13 +2,18 @@
 set -eu
 
 DOMAIN="${DOMAIN:-pandoral.me}"
-CERT_DIR="/etc/letsencrypt/live/$DOMAIN"
-CERT_KEY="$CERT_DIR/privkey.pem"
-CERT_CRT="$CERT_DIR/fullchain.pem"
+LE_CERT_DIR="/etc/letsencrypt/live/$DOMAIN"
+NGINX_CERT_DIR="/etc/nginx/certs"
+CERT_KEY="$NGINX_CERT_DIR/site.key"
+CERT_CRT="$NGINX_CERT_DIR/site.crt"
 
-mkdir -p "$CERT_DIR"
+mkdir -p "$NGINX_CERT_DIR"
 
-if [ ! -s "$CERT_KEY" ] || [ ! -s "$CERT_CRT" ]; then
+if [ -s "$LE_CERT_DIR/privkey.pem" ] && [ -s "$LE_CERT_DIR/fullchain.pem" ]; then
+    echo "Let's Encrypt cert found for $DOMAIN. Linking into Nginx cert path..."
+    ln -sf "$LE_CERT_DIR/privkey.pem" "$CERT_KEY"
+    ln -sf "$LE_CERT_DIR/fullchain.pem" "$CERT_CRT"
+elif [ ! -s "$CERT_KEY" ] || [ ! -s "$CERT_CRT" ]; then
     echo "Let's Encrypt cert not found. Generating fallback self-signed cert for $DOMAIN..."
     if ! openssl req -x509 -nodes -newkey rsa:2048 \
         -keyout "$CERT_KEY" \

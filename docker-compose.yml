@@ -12,6 +12,10 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+      - ./certs:/etc/nginx/certs
+    networks:
+      - default
+      - proxy_net
     restart: unless-stopped
 
   certbot:
@@ -28,3 +32,7 @@ services:
         sleep 12h;
       done"
     restart: unless-stopped
+
+networks:
+  proxy_net:
+    external: true
