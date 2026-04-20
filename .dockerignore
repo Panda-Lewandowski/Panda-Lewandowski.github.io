@@ -1,0 +1,10 @@
+.git
+.gitignore
+.DS_Store
+Dockerfile
+docker-compose.yml
+README.txt
+certs
+certbot
+nginx-site.conf
+nginx-site.test.conf
