@@ -4,3 +4,4 @@ map.html
 images/gallery
 assets/js/mapdata.js
 assets/js/worldmap.js
+nginx/auth/dash.htpasswd

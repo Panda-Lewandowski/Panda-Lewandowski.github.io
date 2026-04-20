@@ -13,6 +13,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
       - ./certs:/etc/nginx/certs
+      - ./nginx/auth/dash.htpasswd:/etc/nginx/auth/dash.htpasswd:ro
     networks:
       - default
       - proxy_net
