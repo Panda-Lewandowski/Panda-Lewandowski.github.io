@@ -62,6 +62,11 @@
 		// Nav.
 		var $nav = $header.children('nav'),
 			$nav_li = $nav.find('li');
+		var $lastNavLink = null;
+
+		$nav.on('click', 'a', function () {
+			$lastNavLink = $(this);
+		});
 
 		// Add "middle" alignment classes if we're dealing with an even number of items.
 		if ($nav_li.length % 2 == 0) {
@@ -93,6 +98,22 @@
 		// Main.
 		var delay = 325,
 			locked = false;
+
+		var focusArticle = function ($article) {
+			var $heading = $article.children('h2').first();
+
+			$heading.attr('tabindex', '-1');
+			window.setTimeout(function () {
+				$heading.focus();
+			}, 0);
+		};
+
+		var restoreNavFocus = function () {
+			if ($lastNavLink && $lastNavLink.length)
+				window.setTimeout(function () {
+					$lastNavLink.focus();
+				}, 0);
+		};
 
 		// Methods.
 		$main._show = function (id, initial) {
@@ -127,6 +148,7 @@
 
 				// Activate article.
 				$article.addClass('active');
+				focusArticle($article);
 
 				// Unlock.
 				locked = false;
@@ -164,6 +186,7 @@
 					setTimeout(function () {
 
 						$article.addClass('active');
+						focusArticle($article);
 
 						// Window stuff.
 						$window
@@ -203,6 +226,7 @@
 					setTimeout(function () {
 
 						$article.addClass('active');
+						focusArticle($article);
 
 						// Window stuff.
 						$window
@@ -267,6 +291,7 @@
 				$window
 					.scrollTop(0)
 					.triggerHandler('resize.flexbox-fix');
+				restoreNavFocus();
 
 				return;
 
@@ -298,6 +323,7 @@
 					$window
 						.scrollTop(0)
 						.triggerHandler('resize.flexbox-fix');
+					restoreNavFocus();
 
 					// Unlock.
 					setTimeout(function () {
@@ -317,7 +343,7 @@
 			var $this = $(this);
 
 			// Close.
-			$('<div class="close">Close</div>')
+			$('<button type="button" class="close" aria-label="Close section">Close</button>')
 				.appendTo($this)
 				.on('click', function () {
 					location.hash = '';
